@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Porto Brasil">
-  <!-- Mark provisório: substituir por /brand/logo.svg oficial sem alterar proporções da marca -->
-  <rect width="64" height="64" rx="12" fill="#0B2F4D"/>
-  <path d="M12 42h40v4H12z" fill="#E85C1A"/>
-  <path d="M18 42V22h6v6h8c6.6 0 12 4.5 12 11v3H18zm14-8h6c2.2 0 4-1.8 4-4s-1.8-4-4-4h-6v8z" fill="#E85C1A"/>
-  <circle cx="48" cy="18" r="4" fill="#E85C1A"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="SS Comercio">
+  <g stroke="#E85C1A" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left S (shield half) -->
+    <path d="M46 20 H28 c-6 0-10 4-10 10 v8 c0 5 4 8 9 8 h15 v10 c0 5-4 9-10 9 H22 l12 18"/>
+    <!-- Right S (mirrored) -->
+    <path d="M54 20 H72 c6 0 10 4 10 10 v8 c0 5-4 8-9 8 H58 v10 c0 5 4 9 10 9 h15 L71 83"/>
+    <!-- Center pin / anchor shank -->
+    <path d="M50 30 V74"/>
+  </g>
+  <circle cx="50" cy="18" r="7" stroke="#E85C1A" stroke-width="7" fill="none"/>
 </svg>

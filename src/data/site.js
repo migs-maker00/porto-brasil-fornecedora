@@ -1,7 +1,7 @@
 export const company = {
   name: 'Porto Brasil Fornecedora',
   legalName: 'PORTO BRASIL FORNECEDORA LTDA',
-  tradeNameAlt: 'SS Comércio Fornecedora',
+  tradeNameAlt: 'SS Comércio & Serviços',
   cnpj: '55.631.547/0001-87',
   addressLines: [
     'R. Nossa Sra. da Paz, 82 — Sala 07',
@@ -10,10 +10,11 @@ export const company = {
   ],
   phones: [
     { label: '(12) 2132-6930', href: 'tel:+551221326930' },
-    { label: '(12) 9760-2999', href: 'tel:+551297602999' },
+    { label: '(12) 99798-9866', href: 'tel:+5512997989866' },
+    { label: '(12) 99760-2999', href: 'tel:+5512997602999' },
   ],
   email: 'portobrasil@fornecedora.net',
-  whatsapp: '551297602999',
+  whatsapp: '5512997602999',
   hours: 'Segunda a sexta, 8h às 18h',
   hoursPlaceholder: false,
   mapsUrl:
