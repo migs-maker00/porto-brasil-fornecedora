@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Porto Brasil">
+  <!-- Mark provisório: substituir por /brand/logo.svg oficial sem alterar proporções da marca -->
+  <rect width="64" height="64" rx="12" fill="#0B2F4D"/>
+  <path d="M12 42h40v4H12z" fill="#E85C1A"/>
+  <path d="M18 42V22h6v6h8c6.6 0 12 4.5 12 11v3H18zm14-8h6c2.2 0 4-1.8 4-4s-1.8-4-4-4h-6v8z" fill="#E85C1A"/>
+  <circle cx="48" cy="18" r="4" fill="#E85C1A"/>
+</svg>
