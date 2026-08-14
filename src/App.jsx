@@ -182,6 +182,10 @@ export default function App() {
                   <dd>{company.cnpj}</dd>
                 </div>
                 <div>
+                  <dt>Inscrição Estadual</dt>
+                  <dd>{company.ie}</dd>
+                </div>
+                <div>
                   <dt>Localização</dt>
                   <dd>São Sebastião - SP</dd>
                 </div>
