@@ -247,7 +247,7 @@ export default function App() {
                 <div>
                   <strong>{t.hoursLabel}</strong>
                   <p>{t.hours}</p>
-                  <p className="field-hint">{t.hoursHint}</p>
+                  {t.hoursHint ? <p className="field-hint">{t.hoursHint}</p> : null}
                 </div>
               </div>
               <div className="hero-actions">
@@ -298,7 +298,7 @@ export default function App() {
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} {company.legalName}. CNPJ {company.cnpj}.</p>
-          <p>{t.footerLegal}</p>
+          {t.footerLegal ? <p>{t.footerLegal}</p> : null}
         </div>
       </footer>
     </div>
