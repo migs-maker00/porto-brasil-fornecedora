@@ -1,10 +1,28 @@
+import { isAppHost } from "./siteUrl"
+
 export function currentPath() {
+  if (isAppHost()) {
+    const path = window.location.pathname.replace(/\/$/, "") || "/"
+    const hash = window.location.hash.replace(/^#/, "")
+    if (hash && hash !== "/") {
+      const h = hash.startsWith("/") ? hash : `/${hash}`
+      return h.startsWith("/app") ? h : `/app${h === "/" ? "" : h}`
+    }
+    return path === "/" ? "/app" : path.startsWith("/app") ? path : `/app${path}`
+  }
   const hash = window.location.hash.replace(/^#/, "") || "/"
   return hash.startsWith("/") ? hash : `/${hash}`
 }
 
 export function go(path) {
-  window.location.hash = path.startsWith("/") ? path : `/${path}`
+  const next = path.startsWith("/") ? path : `/${path}`
+  if (isAppHost()) {
+    const intern = next.replace(/^\/app/, "") || "/"
+    window.history.pushState({}, "", intern)
+    window.dispatchEvent(new PopStateEvent("popstate"))
+    return
+  }
+  window.location.hash = next
 }
 
 export function parsePath(path) {
@@ -24,5 +42,5 @@ export function parsePath(path) {
   if (clean === "/app/propostas") return { name: "proposals" }
   if (clean === "/app/analises") return { name: "analyses" }
   if (clean === "/app/historico") return { name: "history" }
-  return { name: "home" }
+  return { name: "notfound" }
 }

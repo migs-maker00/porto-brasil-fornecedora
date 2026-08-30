@@ -52,13 +52,12 @@ export default function QuoteForm() {
   return (
     <form className="quote-form" onSubmit={onSubmit} noValidate>
       <div className="form-grid">
-        <label className="full">
-          {f.need}
-          <textarea
-            value={form.need}
-            onChange={(e) => update("need", e.target.value)}
-            rows={4}
-            placeholder={f.needPh}
+        <label>
+          {f.name}
+          <input
+            value={form.nome}
+            onChange={(e) => update("nome", e.target.value)}
+            autoComplete="name"
             required
           />
         </label>
@@ -68,15 +67,6 @@ export default function QuoteForm() {
             value={form.empresa}
             onChange={(e) => update("empresa", e.target.value)}
             autoComplete="organization"
-          />
-        </label>
-        <label>
-          {f.name}
-          <input
-            value={form.nome}
-            onChange={(e) => update("nome", e.target.value)}
-            autoComplete="name"
-            required
           />
         </label>
         <label>
@@ -95,6 +85,16 @@ export default function QuoteForm() {
             value={form.telefone}
             onChange={(e) => update("telefone", e.target.value)}
             autoComplete="tel"
+            required
+          />
+        </label>
+        <label className="full">
+          {f.need}
+          <textarea
+            value={form.need}
+            onChange={(e) => update("need", e.target.value)}
+            rows={4}
+            placeholder={f.needPh}
             required
           />
         </label>

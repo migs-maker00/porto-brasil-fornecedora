@@ -7,7 +7,6 @@ const PAGES = {
     body: [
       "Este site institucional não cria conta de visitante e não vende dados.",
       "O formulário de necessidade abre o WhatsApp com o texto que você digitou. A conversa passa a ocorrer no aplicativo da Meta, sujeito à política deles.",
-      "A área da equipe guarda pesquisas e fornecedores neste navegador (armazenamento local). Não enviamos essa base para um servidor da SS.",
       "Se quiser excluir dados deixados neste aparelho, limpe o armazenamento do site no navegador.",
       `Dúvidas: ${company.email} ou ${company.phones[0].label}.`,
     ],
@@ -18,7 +17,7 @@ const PAGES = {
       "O site apresenta a SS Comércio e Serviços e um canal para enviar necessidades de fornecimento.",
       "Enviar uma mensagem não cria contrato, reserva de estoque, crédito ou prazo automático.",
       "Condições comerciais dependem de análise de cada operação e de cada cliente.",
-      "A área da equipe é ferramenta interna. O visitante do site público não precisa usá-la.",
+      "Este site é institucional. Enviar uma mensagem não cria cadastro automático.",
       `Razão social: ${company.legalName}. CNPJ ${company.cnpj}. ${company.addressLines.join(" ")}`,
     ],
   },
@@ -32,7 +31,7 @@ export default function LegalPage({ kind }) {
       <header className="site-header">
         <div className="container header-inner">
           <Logo />
-          <a className="btn btn-secondary" href="#/">
+          <a className="btn btn-ghost" href="#/">
             Voltar ao site
           </a>
         </div>

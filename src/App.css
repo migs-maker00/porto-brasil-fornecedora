@@ -266,6 +266,39 @@
   color: var(--muted);
 }
 
+.about-copy {
+  max-width: 40rem;
+}
+
+.about-copy p {
+  color: var(--muted);
+}
+
+.about-need {
+  margin-top: 1.25rem;
+  color: var(--blue) !important;
+  font-weight: 700;
+}
+
+.diff-title {
+  max-width: 22rem;
+}
+
+.statement-band h2 {
+  max-width: 36rem;
+}
+
+.statement-band p {
+  max-width: 36rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.statement-line {
+  margin-top: 0.85rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+
 .flow-layout {
   align-items: start;
 }

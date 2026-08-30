@@ -12,7 +12,11 @@ export function LangProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    document.title = messages[lang].pageTitle;
+    document.title = messages[lang].pageTitle
+    const meta = document.querySelector('meta[name="description"]')
+    if (meta && messages[lang].pageDescription) {
+      meta.setAttribute("content", messages[lang].pageDescription)
+    }
   }, [lang]);
 
   const setLang = (next) => {

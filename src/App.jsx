@@ -16,17 +16,42 @@ export default function App() {
   )
 
   useEffect(() => {
-    const onHash = () => setPath(currentPath())
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
+    const sync = () => setPath(currentPath())
+    window.addEventListener('hashchange', sync)
+    window.addEventListener('popstate', sync)
+    return () => {
+      window.removeEventListener('hashchange', sync)
+      window.removeEventListener('popstate', sync)
+    }
   }, [])
 
   const route = parsePath(path)
   if (route.name === 'privacy' || route.name === 'terms') {
     return <LegalPage kind={route.name} />
   }
+  if (route.name === 'notfound') return <NotFound />
   if (route.name !== 'home') return <WorkRoot route={route} />
   return <PublicSite />
+}
+
+function NotFound() {
+  const { t } = useLang()
+  return (
+    <div>
+      <header className="site-header">
+        <div className="container header-inner">
+          <Logo />
+        </div>
+      </header>
+      <main className="section">
+        <div className="container legal-page">
+          <h1>{t.notFoundTitle}</h1>
+          <p>{t.notFoundLead}</p>
+          <a className="btn btn-primary" href="#/">{t.notFoundCta}</a>
+        </div>
+      </main>
+    </div>
+  )
 }
 
 function useReveal() {
@@ -74,53 +99,30 @@ function PublicSite() {
               <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
                 {t.quoteCta}
               </button>
-              <button type="button" className="btn btn-secondary" onClick={() => scrollToId('como-funciona')}>
+              <button type="button" className="btn btn-secondary" onClick={() => scrollToId('empresa')}>
                 {t.secondaryCta}
               </button>
             </div>
           </div>
         </section>
 
-        <section id="solucoes" className="section">
+        <section id="empresa" className="section">
           <div className="container">
             <div className="section-head reveal">
-              <p className="eyebrow">{t.trustEyebrow}</p>
-              <h2>{t.trustTitle}</h2>
-              <p>{t.trustLead}</p>
+              <p className="eyebrow">{t.aboutEyebrow}</p>
+              <h2>{t.aboutTitle}</h2>
+              <p className="lead">{t.aboutLead}</p>
             </div>
-            <div className="grid-2 reasons-grid">
-              {t.reasons.map((item) => (
-                <article key={item.title} className="reason-card reveal">
-                  <h3>{item.title}</h3>
-                  <p>{item.desc}</p>
-                </article>
+            <div className="about-copy reveal">
+              {t.aboutBody.map((p) => (
+                <p key={p}>{p}</p>
               ))}
+              <p className="about-need">{t.aboutNeedFirst}</p>
             </div>
           </div>
         </section>
 
-        <section className="section maritime">
-          <div className="maritime-bg" aria-hidden="true" />
-          <div className="container maritime-inner reveal">
-            <p className="eyebrow">{t.diffEyebrow}</p>
-            <h2>{t.diffTitle}</h2>
-            <p>{t.diffLead}</p>
-            <div className="maritime-chain" aria-label={t.diffTitle}>
-              {t.chain.flatMap((label, i) =>
-                i === 0
-                  ? [<span key={label}>{label}</span>]
-                  : [
-                      <span key={`${label}-arrow`} aria-hidden="true">
-                        →
-                      </span>,
-                      <span key={label}>{label}</span>,
-                    ],
-              )}
-            </div>
-          </div>
-        </section>
-
-        <section id="como-funciona" className="section">
+        <section id="como-funciona" className="section section-alt">
           <div className="container">
             <div className="section-head reveal">
               <p className="eyebrow">{t.flowEyebrow}</p>
@@ -141,25 +143,15 @@ function PublicSite() {
           </div>
         </section>
 
-        <section className="section section-alt">
-          <div className="container">
-            <div className="section-head reveal">
-              <p className="eyebrow">{t.caseEyebrow}</p>
-              <h2>{t.caseTitle}</h2>
-              <p>{t.caseLead}</p>
-            </div>
-            <div className="grid-4">
-              {t.caseItems.map((item) => (
-                <article key={item.title} className="card reveal">
-                  <h3>{item.title}</h3>
-                  <p>{item.desc}</p>
-                </article>
-              ))}
-            </div>
+        <section className="section">
+          <div className="container reveal">
+            <p className="eyebrow">{t.diffEyebrow}</p>
+            <h2 className="diff-title">{t.diffTitle}</h2>
+            <p className="lead">{t.diffLead}</p>
           </div>
         </section>
 
-        <section id="materiais" className="section">
+        <section id="atuacao" className="section section-alt">
           <div className="container">
             <div className="section-head reveal">
               <p className="eyebrow">{t.materialsEyebrow}</p>
@@ -171,7 +163,7 @@ function PublicSite() {
                 const Icon = categoryIcons[i]
                 return (
                   <article key={item.title} className="card reveal">
-                    <div className="icon-wrap"><Icon /></div>
+                    {Icon ? <div className="icon-wrap"><Icon /></div> : null}
                     <h3>{item.title}</h3>
                     <p>{item.desc}</p>
                   </article>
@@ -181,91 +173,55 @@ function PublicSite() {
           </div>
         </section>
 
-        <section className="section section-alt">
-          <div className="container grid-2">
-            <article className="reason-card reveal">
-              <p className="eyebrow">{t.specificEyebrow}</p>
-              <h2>{t.specificTitle}</h2>
-              <p>{t.specificLead}</p>
-            </article>
-            <article className="reason-card reveal">
-              <h2>{t.unknownTitle}</h2>
-              <p>{t.unknownLead}</p>
-              <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
-                {t.sendNeed}
-              </button>
-            </article>
+        <section className="section maritime">
+          <div className="maritime-bg" aria-hidden="true" />
+          <div className="container maritime-inner reveal">
+            <p className="eyebrow">{t.seaEyebrow}</p>
+            <h2>{t.seaTitle}</h2>
+            <p>{t.seaLead}</p>
+            <p>{t.seaBody}</p>
           </div>
         </section>
 
-        <section id="parceria" className="section">
-          <div className="container grid-2 company-grid">
-            <div className="reveal">
-              <p className="eyebrow">{t.partnerEyebrow}</p>
-              <h2>{t.partnerTitle}</h2>
-              <p className="lead">{t.partnerLead}</p>
+        <section id="compromisso" className="section">
+          <div className="container">
+            <div className="section-head reveal">
+              <p className="eyebrow">{t.trustEyebrow}</p>
+              <h2>{t.trustTitle}</h2>
             </div>
-            <aside className="company-aside reveal">
-              <ul>
-                {t.partnerItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </aside>
-          </div>
-        </section>
-
-        <section id="empresa" className="section">
-          <div className="container grid-2 company-grid">
-            <div className="reveal">
-              <p className="eyebrow">{t.companyEyebrow}</p>
-              <h2>{company.name}</h2>
-              <p className="lead">{t.companyLead}</p>
-              <dl className="company-facts">
-                <div>
-                  <dt>{t.factTrade}</dt>
-                  <dd>{company.name}</dd>
-                </div>
-                <div>
-                  <dt>{t.factAlso}</dt>
-                  <dd>{company.tradeNameAlt}</dd>
-                </div>
-                <div>
-                  <dt>{t.factLegal}</dt>
-                  <dd>{company.legalName}</dd>
-                </div>
-                <div>
-                  <dt>{t.factCnpj}</dt>
-                  <dd>{company.cnpj}</dd>
-                </div>
-                <div>
-                  <dt>{t.factIe}</dt>
-                  <dd>{company.ie}</dd>
-                </div>
-                <div>
-                  <dt>{t.factLocation}</dt>
-                  <dd>{t.locationValue}</dd>
-                </div>
-              </dl>
-              <p className="muted-note">{t.companyNote}</p>
+            <div className="grid-2 reasons-grid">
+              {t.principles.map((item) => (
+                <article key={item.title} className="reason-card reveal">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              ))}
             </div>
-            <aside className="company-aside reveal">
-              <h3>{t.asideTitle}</h3>
-              <p>{t.asideLead}</p>
-              <ul>
-                {t.asideItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </aside>
           </div>
         </section>
 
-        <section className="section section-blue cta-band">
+        <section className="section section-blue statement-band">
+          <div className="container reveal">
+            <p className="eyebrow">{t.visionEyebrow}</p>
+            <h2>{t.visionTitle}</h2>
+            <p>{t.visionLead}</p>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container reveal">
+            <p className="eyebrow">{t.partnerEyebrow}</p>
+            <h2>{t.partnerTitle}</h2>
+            <p className="lead">{t.partnerLead}</p>
+          </div>
+        </section>
+
+        <section className="section section-alt cta-band">
           <div className="container cta-band-inner reveal">
             <div>
-              <h2>{t.recurTitle}</h2>
-              <p>{t.recurLead}</p>
+              <h2>{t.ctaTitle}</h2>
+              <p>{t.ctaLead}</p>
+              <p className="statement-line">{t.statement}</p>
             </div>
             <div className="cta-band-actions">
               <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
@@ -275,7 +231,7 @@ function PublicSite() {
           </div>
         </section>
 
-        <section id="contato" className="section section-alt">
+        <section id="contato" className="section">
           <div className="container grid-2 contact-grid">
             <div className="reveal">
               <p className="eyebrow">{t.contactEyebrow}</p>
@@ -304,7 +260,10 @@ function PublicSite() {
                 <div>
                   <strong>{t.hoursLabel}</strong>
                   <p>{t.hours}</p>
-                  {t.hoursHint ? <p className="field-hint">{t.hoursHint}</p> : null}
+                </div>
+                <div>
+                  <strong>{t.factCnpj}</strong>
+                  <p>{company.cnpj}</p>
                 </div>
               </div>
               <div className="hero-actions">
@@ -343,6 +302,8 @@ function PublicSite() {
           <div>
             <Logo />
             <p>{t.footerAbout}</p>
+            <p>{company.legalName}</p>
+            <p>CNPJ {company.cnpj}</p>
           </div>
           <div>
             <h4>{t.footerLinks}</h4>
@@ -354,13 +315,14 @@ function PublicSite() {
           </div>
           <div>
             <h4>{t.contactEyebrow}</h4>
-            {company.addressLines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
+            <p>São Sebastião — SP</p>
             <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
-            {company.phones.map((p) => (
-              <p key={p.href}><a href={p.href}>{p.label}</a></p>
-            ))}
+            <p><a href="tel:+5512997602999">(12) 99760-2999</a></p>
+            <p>
+              <a href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp</a>
+              {' · '}
+              <a href={`mailto:${company.email}`}>E-mail</a>
+            </p>
           </div>
         </div>
         <div className="container footer-bottom">
@@ -368,7 +330,6 @@ function PublicSite() {
           <div className="footer-legal">
             <a href="#/privacidade">{t.privacy}</a>
             <a href="#/termos">{t.terms}</a>
-            <a href="#/app" className="footer-team">{t.teamArea}</a>
           </div>
         </div>
       </footer>

@@ -1,4 +1,5 @@
 import { go } from "../lib/route"
+import { openPublicSite } from "../lib/siteUrl"
 import Logo from "../components/Logo"
 
 const NAV = [
@@ -34,7 +35,7 @@ export default function WorkShell({ route, children }) {
             </button>
           ))}
         </nav>
-        <button type="button" className="work-back" onClick={() => go("/")}>
+        <button type="button" className="work-back" onClick={() => openPublicSite()}>
           Voltar ao site
         </button>
       </aside>

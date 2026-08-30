@@ -113,7 +113,9 @@ p {
   margin: 0;
 }
 
-.section-blue .section-head p {
+.section-blue .section-head p,
+.section-blue .eyebrow,
+.section-blue p {
   color: rgba(255, 255, 255, 0.72);
 }
 
