@@ -125,7 +125,7 @@ export const messages = {
     partnerEyebrow: "Relacionamento",
     partnerTitle: "Um parceiro para as próximas necessidades.",
     partnerLead:
-      "A proposta não termina em um único pedido. Buscamos relações comerciais duradouras: conhecer a operação e tornar os próximos fornecimentos mais simples.",
+      "A proposta não termina em um único pedido. Construímos relações comerciais de longo prazo e avaliamos condições de fornecimento de acordo com cada operação e cliente.",
     partnerItems: [
       "Um interlocutor para a sua operação",
       "Histórico do que já foi pedido",
@@ -172,6 +172,8 @@ export const messages = {
     footerAbout: "Soluções em fornecimento. São Sebastião - SP.",
     footerLinks: "Links",
     footerLegal: "",
+    privacy: "Privacidade",
+    terms: "Termos",
     form: {
       need: "O que você precisa? *",
       needPh: "Descrição, código, foto na conversa… o que tiver.",
@@ -319,7 +321,7 @@ export const messages = {
     partnerEyebrow: "Relationship",
     partnerTitle: "A partner for the next needs.",
     partnerLead:
-      "The work does not end on a single order. We look for lasting commercial relationships: know the operation and make the next supplies simpler.",
+      "The work does not end on a single order. We build long-term commercial relationships and review supply terms according to each operation and client.",
     partnerItems: [
       "One contact for your operation",
       "A record of what has already been requested",
@@ -366,6 +368,8 @@ export const messages = {
     footerAbout: "Supply solutions. São Sebastião, SP, Brazil.",
     footerLinks: "Links",
     footerLegal: "",
+    privacy: "Privacy",
+    terms: "Terms",
     form: {
       need: "What do you need? *",
       needPh: "Description, code, a photo in the chat… whatever you have.",

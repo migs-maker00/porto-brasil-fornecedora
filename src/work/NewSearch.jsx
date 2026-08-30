@@ -5,21 +5,31 @@ import { createProcess } from "../lib/store"
 
 export default function NewSearch({ initial = "" }) {
   const [text, setText] = useState(initial)
+  const [client, setClient] = useState("")
+  const [ship, setShip] = useState("")
+  const [requester, setRequester] = useState("")
+  const [urgency, setUrgency] = useState("normal")
   const parsed = parseNeed(text)
 
   function submit(e) {
     e.preventDefault()
     if (!text.trim()) return
-    const process = createProcess(text)
+    const process = createProcess(text, {
+      client,
+      ship,
+      requester,
+      urgency: urgency === "normal" ? parsed.urgency : urgency,
+    })
     go(`/app/pesquisa/${process.id}`)
   }
 
   return (
     <div>
       <p className="eyebrow">Nova pesquisa</p>
-      <h1>O que você precisa cotar?</h1>
+      <h1>Qual material precisa encontrar?</h1>
       <p className="lead">
-        Escreva como veio o pedido. Marca é opcional. Dá para pesquisar mesmo incompleto.
+        Em vez de vasculhar dezenas de empresas, o sistema aponta as 10–15 mais relevantes para
+        contatar — diretório, memória da SS e pesquisa ao vivo. A equipe decide.
       </p>
 
       <form className="work-panel" onSubmit={submit}>
@@ -33,6 +43,28 @@ export default function NewSearch({ initial = "" }) {
             required
           />
         </label>
+        <div className="form-grid">
+          <label>
+            Cliente
+            <input value={client} onChange={(e) => setClient(e.target.value)} />
+          </label>
+          <label>
+            Navio
+            <input value={ship} onChange={(e) => setShip(e.target.value)} />
+          </label>
+          <label>
+            Solicitante
+            <input value={requester} onChange={(e) => setRequester(e.target.value)} />
+          </label>
+          <label>
+            Urgência
+            <select value={urgency} onChange={(e) => setUrgency(e.target.value)}>
+              <option value="normal">Normal</option>
+              <option value="alta">Alta</option>
+              <option value="urgente">Urgente</option>
+            </select>
+          </label>
+        </div>
         {text.trim() ? <ParsedBox parsed={parsed} /> : null}
         <button type="submit" className="btn btn-primary">
           Pesquisar fornecedores
@@ -45,7 +77,7 @@ export default function NewSearch({ initial = "" }) {
 export function ParsedBox({ parsed }) {
   return (
     <div className="parsed-box">
-      <p className="examples-label">Identificado</p>
+      <p className="examples-label">Identificado pelo assistente</p>
       <dl className="parsed-grid">
         <div>
           <dt>Produto</dt>
@@ -66,6 +98,10 @@ export function ParsedBox({ parsed }) {
         <div>
           <dt>Categoria</dt>
           <dd>{parsed.categories.join(" · ") || "Não informado"}</dd>
+        </div>
+        <div>
+          <dt>Aplicação</dt>
+          <dd>{parsed.application || "Não informado"}</dd>
         </div>
       </dl>
       {parsed.missing.length ? (

@@ -10,6 +10,8 @@ export function go(path) {
 export function parsePath(path) {
   const clean = path.replace(/\/$/, "") || "/"
   if (clean === "/") return { name: "home" }
+  if (clean === "/privacidade") return { name: "privacy" }
+  if (clean === "/termos") return { name: "terms" }
   if (clean === "/app") return { name: "dashboard" }
   if (clean === "/app/pesquisa") return { name: "new-search" }
   const process = clean.match(/^\/app\/pesquisa\/([^/]+)$/)

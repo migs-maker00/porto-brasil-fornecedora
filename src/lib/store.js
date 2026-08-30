@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react"
 import { parseNeed } from "./parseNeed"
 import { buildQuoteMessage } from "./quoteMessage"
+import { normalizeName } from "./searchSuppliers"
 import { company } from "../data/site"
 
 const KEY = "ss-comercio-work-v1"
@@ -61,12 +62,15 @@ export function useWorkStore() {
 
 export function createProcess(rawNeed, extra = {}) {
   const parsed = parseNeed(rawNeed)
-  const now = {
+  const process = {
     id: uid("p"),
     ref: padRef(state.nextRef),
     rawNeed: String(rawNeed || "").trim(),
     parsed,
     client: extra.client || "",
+    ship: extra.ship || "",
+    requester: extra.requester || "",
+    urgency: extra.urgency || parsed.urgency || "normal",
     status: "pesquisando",
     selectedSupplierIds: [],
     contactedSupplierIds: [],
@@ -111,6 +115,18 @@ export function reparseProcess(id, rawNeed) {
 
 export function upsertSupplier(data) {
   const now = Date.now()
+  const existing = !data.id
+    ? state.suppliers.find((s) => normalizeName(s.name) && normalizeName(s.name) === normalizeName(data.name))
+    : null
+  if (existing) {
+    data = {
+      ...existing,
+      ...data,
+      id: existing.id,
+      brands: [...new Set([...(existing.brands || []), ...(data.brands || [])])],
+      products: [...new Set([...(existing.products || []), ...(data.products || [])])],
+    }
+  }
   if (data.id) {
     state = {
       ...state,
@@ -134,6 +150,10 @@ export function upsertSupplier(data) {
     website: "",
     b2b: null,
     favorite: false,
+    trusted: false,
+    responsive: false,
+    problematic: false,
+    lastContact: "",
     notes: "",
     evidence: [],
     createdAt: now,
@@ -146,10 +166,26 @@ export function upsertSupplier(data) {
 }
 
 export function toggleFavorite(id) {
+  toggleSupplierFlag(id, "favorite")
+}
+
+export function toggleSupplierFlag(id, key) {
+  const allowed = ["favorite", "trusted", "responsive", "problematic"]
+  if (!allowed.includes(key)) return
   state = {
     ...state,
     suppliers: state.suppliers.map((s) =>
-      s.id === id ? { ...s, favorite: !s.favorite, updatedAt: Date.now() } : s,
+      s.id === id ? { ...s, [key]: !s[key], updatedAt: Date.now() } : s,
+    ),
+  }
+  emit()
+}
+
+export function patchSupplier(id, patch) {
+  state = {
+    ...state,
+    suppliers: state.suppliers.map((s) =>
+      s.id === id ? { ...s, ...patch, updatedAt: Date.now() } : s,
     ),
   }
   emit()

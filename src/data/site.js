@@ -11,11 +11,11 @@ export const company = {
     'CEP 11609-000',
   ],
   phones: [
-    { label: '(12) 2132-6930', href: 'tel:+551221326930' },
+    { label: '(12) 99760-2999', href: 'tel:+5512997602999' },
     { label: '(12) 99798-9866', href: 'tel:+5512997989866' },
   ],
   email: 'sscomercio.servico@gmail.com',
-  whatsapp: '5512997989866',
+  whatsapp: '5512997602999',
   hours: 'Segunda a sexta, 8h às 18h',
   hoursPlaceholder: false,
   mapsUrl:

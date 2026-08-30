@@ -19,7 +19,7 @@ O mark atual em `logo-mark.svg` é provisório até o arquivo oficial ser inseri
 - Razão social: SS COMÉRCIO E SERVIÇOS EIRELI - EPP
 - CNPJ: 31.009.671/0001-47 | IE: 654.136.884-110
 - Endereço: Rua Nossa Senhora da Paz, 82 — Sala 06, Vila Amélia, São Sebastião - SP
-- Telefones: (12) 2132-6930 / (12) 99798-9866
+- Telefones: (12) 99760-2999 (WhatsApp) / (12) 99798-9866
 - E-mail: sscomercio.servico@gmail.com
 - Formulário de cotação abre WhatsApp com a mensagem estruturada
 

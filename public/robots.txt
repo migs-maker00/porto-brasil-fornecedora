@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://porto-brasil-fornecedora.vercel.app/sitemap.xml

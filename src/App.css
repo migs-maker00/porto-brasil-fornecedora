@@ -597,9 +597,32 @@
   margin: 0;
 }
 
-.footer-team {
+.footer-team,
+.footer-legal a {
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.footer-legal {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.legal-page {
+  max-width: 40rem;
+}
+
+.legal-page p {
+  color: var(--muted);
+}
+
+.copy-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .contact-map {
@@ -652,6 +675,7 @@
 }
 
 @media (max-width: 680px) {
+  .work-panel .form-grid,
   .flow-list-wide {
     grid-template-columns: 1fr;
   }
@@ -757,6 +781,18 @@
   gap: 1rem;
   align-items: flex-start;
   margin-bottom: 1.2rem;
+}
+
+.work-head-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.work-panel .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
 .work-panel {
@@ -916,6 +952,12 @@
 
 .query-list code {
   font-size: 0.82rem;
+}
+
+.work-panel > summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--blue);
 }
 
 .supplier-result {

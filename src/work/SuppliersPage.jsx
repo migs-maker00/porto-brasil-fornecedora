@@ -2,7 +2,7 @@ import { useState } from "react"
 import { CATEGORIES } from "../lib/categories"
 import { go } from "../lib/route"
 import { emptyField } from "../lib/searchSuppliers"
-import { toggleFavorite, useWorkStore } from "../lib/store"
+import { toggleFavorite, toggleSupplierFlag, useWorkStore } from "../lib/store"
 
 export default function SuppliersPage() {
   const { suppliers } = useWorkStore()
@@ -39,7 +39,8 @@ export default function SuppliersPage() {
       </div>
       {rows.length === 0 ? (
         <p className="muted-note">
-          A base começa vazia. As empresas entram quando a equipe registra uma pesquisa.
+          A memória da equipe começa vazia. A pesquisa já usa um diretório de especialistas com
+          site oficial; o que você selecionar ou cadastrar fica aqui.
         </p>
       ) : (
         <ul className="work-list">
@@ -76,9 +77,20 @@ export function SupplierPage({ id }) {
     <div>
       <p className="eyebrow">{s.type}</p>
       <h1>{s.name}</h1>
-      <button type="button" className="btn btn-ghost" onClick={() => toggleFavorite(s.id)}>
-        {s.favorite ? "Fornecedor frequente" : "Marcar como frequente"}
-      </button>
+      <div className="hero-actions">
+        <button type="button" className="btn btn-ghost" onClick={() => toggleFavorite(s.id)}>
+          {s.favorite ? "Frequente" : "Marcar como frequente"}
+        </button>
+        <button type="button" className="btn btn-ghost" onClick={() => toggleSupplierFlag(s.id, "trusted")}>
+          {s.trusted ? "Confiável" : "Marcar confiável"}
+        </button>
+        <button type="button" className="btn btn-ghost" onClick={() => toggleSupplierFlag(s.id, "responsive")}>
+          {s.responsive ? "Responsivo" : "Costuma responder"}
+        </button>
+        <button type="button" className="btn btn-ghost" onClick={() => toggleSupplierFlag(s.id, "problematic")}>
+          {s.problematic ? "Problemático" : "Marcar problemático"}
+        </button>
+      </div>
 
       <section className="work-panel">
         <dl className="parsed-grid">
@@ -121,6 +133,10 @@ export function SupplierPage({ id }) {
           <div>
             <dt>B2B</dt>
             <dd>{s.b2b === true ? "Sim" : s.b2b === false ? "Não" : "Não informado"}</dd>
+          </div>
+          <div>
+            <dt>Último contato</dt>
+            <dd>{emptyField(s.lastContact)}</dd>
           </div>
         </dl>
         {s.notes ? <p>{s.notes}</p> : null}

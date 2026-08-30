@@ -33,6 +33,7 @@ const PRODUCT_RULES = [
   { test: /bomba/i, product: "Bomba", category: "Hidráulica" },
   { test: /motor/i, product: "Motor", category: "Motores" },
   { test: /ferramenta/i, product: "Ferramenta", category: "Ferramentas" },
+  { test: /v[aá]lvula/i, product: "Válvula", category: "Hidráulica" },
 ]
 
 const CATEGORY_HINTS = [
@@ -55,7 +56,7 @@ export function parseNeed(text) {
       /\b(\d{1,5}(?:[.,]\d+)?)\s*(?:unidades?|pe[cç]as?|p[cç]s?|und)\b/i,
     ) ||
     raw.match(
-      /\b(\d{1,4})\s+(?:rolamentos?|bombas?|l[aâ]mpadas?|filtros?|parafusos?|mangueiras?|an[eé]is|pe[cç]as?)\b/i,
+      /\b(\d{1,4})\s+(?:rolamentos?|bombas?|l[aâ]mpadas?|filtros?|parafusos?|mangueiras?|an[eé]is|v[aá]lvulas?|pe[cç]as?)\b/i,
     )
 
   const codeMatch = raw.match(/\b(\d{4}(?:-\d+)?)\b/)
@@ -72,6 +73,8 @@ export function parseNeed(text) {
   if (!categories.size) categories.add("Peças")
 
   const missing = suggestMissing(raw, product)
+  const appMatch = raw.match(/(?:sistema|aplica[cç][aã]o|para o|para a)\s+([^.,;]+)/i)
+  const urgency = /urgent/i.test(raw) ? "urgente" : /prioridade alta|\balta\b/i.test(raw) ? "alta" : "normal"
 
   return {
     raw,
@@ -83,6 +86,8 @@ export function parseNeed(text) {
     brands,
     categories: [...categories].filter((c) => CATEGORIES.includes(c)),
     missing,
+    application: appMatch ? appMatch[1].trim().slice(0, 80) : "",
+    urgency,
     spec: [codeMatch?.[1], sealMatch?.[1]?.toUpperCase(), clearanceMatch?.[1]?.toUpperCase()]
       .filter(Boolean)
       .join(" "),
@@ -114,21 +119,31 @@ function suggestMissing(raw, product) {
 }
 
 export function searchQueries(parsed) {
-  const spec = parsed.spec || parsed.product
+  const spec = (parsed.spec || parsed.product || "").trim()
+  const product = parsed.product || "material"
   const queries = []
+
+  if (spec) {
+    queries.push(`${spec} fornecedor`)
+    queries.push(`${spec} distribuidor`)
+    queries.push(`${spec} atacado`)
+    queries.push(`${spec} revenda`)
+    queries.push(`${spec} ${product} industrial`)
+  }
+
+  parsed.categories.forEach((cat) => {
+    queries.push(`distribuidor ${cat} Brasil`)
+  })
+
   if (parsed.brands.length) {
     parsed.brands.forEach((brand) => {
-      queries.push(`distribuidor autorizado ${brand} Brasil`)
-      queries.push(`distribuidor ${brand} ${parsed.product}`)
-      queries.push(`${brand} ${spec} fornecedor B2B`)
+      queries.push(`distribuidor ${brand} ${product} Brasil`)
+      queries.push(`${brand} distribuidor autorizado`)
+      if (spec) queries.push(`${spec} ${brand} distribuidor`)
     })
-    queries.push(`${parsed.product} ${spec} distribuidor Brasil`)
   } else {
-    queries.push(`${parsed.product} ${spec} distribuidor Brasil`.trim())
-    queries.push(`${parsed.product} ${spec} fornecedor B2B`.trim())
-    parsed.categories.forEach((cat) => {
-      queries.push(`${cat} distribuidor industrial Brasil`)
-    })
+    queries.push(`${product} ${spec} fornecedor B2B`.trim())
   }
-  return [...new Set(queries)].slice(0, 6)
+
+  return [...new Set(queries.filter(Boolean))].slice(0, 12)
 }

@@ -7,6 +7,7 @@ import Logo from './components/Logo'
 import { company } from './data/site'
 import { useLang } from './LangContext'
 import WorkRoot from './work/WorkRoot'
+import LegalPage from './components/LegalPage'
 import './App.css'
 
 export default function App() {
@@ -21,6 +22,9 @@ export default function App() {
   }, [])
 
   const route = parsePath(path)
+  if (route.name === 'privacy' || route.name === 'terms') {
+    return <LegalPage kind={route.name} />
+  }
   if (route.name !== 'home') return <WorkRoot route={route} />
   return <PublicSite />
 }
@@ -304,8 +308,14 @@ function PublicSite() {
                 </div>
               </div>
               <div className="hero-actions">
-                <a className="btn btn-ghost" href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noreferrer">
-                  {t.talkTeam}
+                <a className="btn btn-primary" href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noreferrer">
+                  WhatsApp (12) 99760-2999
+                </a>
+                <a className="btn btn-secondary" href="tel:+5512997602999">
+                  Ligar
+                </a>
+                <a className="btn btn-ghost" href={`mailto:${company.email}`}>
+                  {company.email}
                 </a>
               </div>
             </div>
@@ -355,7 +365,11 @@ function PublicSite() {
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} {company.legalName}. CNPJ {company.cnpj}.</p>
-          <a href="#/app" className="footer-team">{t.teamArea}</a>
+          <div className="footer-legal">
+            <a href="#/privacidade">{t.privacy}</a>
+            <a href="#/termos">{t.terms}</a>
+            <a href="#/app" className="footer-team">{t.teamArea}</a>
+          </div>
         </div>
       </footer>
     </div>
