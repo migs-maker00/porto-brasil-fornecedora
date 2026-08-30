@@ -1,7 +1,7 @@
 export const company = {
-  name: 'Porto Brasil',
+  name: 'SS Comércio e Serviços',
   legalName: 'SS COMÉRCIO E SERVIÇOS EIRELI - EPP',
-  tradeNameAlt: 'SS Comércio & Serviços',
+  tradeNameAlt: 'Porto Brasil',
   cnpj: '31.009.671/0001-47',
   ie: '654.136.884-110',
   director: 'Cristiano Santos de Oliveira',

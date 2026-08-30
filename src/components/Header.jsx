@@ -61,6 +61,9 @@ export default function Header({ onQuote }) {
               EN
             </button>
           </div>
+          <a className="nav-link" href="#/app">
+            {t.teamArea}
+          </a>
           <button type="button" className="btn btn-primary header-cta" onClick={onQuote}>
             {t.quoteCta}
           </button>
@@ -86,6 +89,9 @@ export default function Header({ onQuote }) {
               {link.label}
             </button>
           ))}
+          <a href="#/app" onClick={() => setOpen(false)}>
+            {t.teamArea}
+          </a>
           <button
             type="button"
             className="btn btn-primary btn-block"

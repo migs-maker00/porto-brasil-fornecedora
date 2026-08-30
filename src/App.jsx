@@ -1,11 +1,30 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Header from './components/Header'
 import QuoteForm from './components/QuoteForm'
+import { createProcess } from './lib/store'
+import { currentPath, go, parsePath } from './lib/route'
 import { categoryIcons } from './components/Icons'
 import Logo from './components/Logo'
 import { company } from './data/site'
 import { useLang } from './LangContext'
+import WorkRoot from './work/WorkRoot'
 import './App.css'
+
+export default function App() {
+  const [path, setPath] = useState(() =>
+    typeof window === 'undefined' ? '/' : currentPath(),
+  )
+
+  useEffect(() => {
+    const onHash = () => setPath(currentPath())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  const route = parsePath(path)
+  if (route.name !== 'home') return <WorkRoot route={route} />
+  return <PublicSite />
+}
 
 function useReveal() {
   const ref = useRef(null)
@@ -32,9 +51,17 @@ function scrollToId(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-export default function App() {
+function PublicSite() {
   const pageRef = useReveal()
   const { t } = useLang()
+  const [need, setNeed] = useState('')
+
+  function startSearch(e) {
+    e.preventDefault()
+    if (!need.trim()) return
+    const process = createProcess(need)
+    go(`/app/pesquisa/${process.id}`)
+  }
 
   return (
     <div ref={pageRef}>
@@ -46,12 +73,23 @@ export default function App() {
           <div className="hero-overlay" aria-hidden="true" />
           <div className="container hero-content">
             <p className="eyebrow hero-eyebrow">{t.heroEyebrow}</p>
-            <h1>{t.heroTitle}</h1>
+            <h1 className="hero-title-wide">{t.heroTitle}</h1>
             <p className="hero-lead">{t.heroLead}</p>
+            <form className="hero-search" onSubmit={startSearch}>
+              <label htmlFor="need-search">{t.heroSearchLabel}</label>
+              <div className="hero-search-row">
+                <input
+                  id="need-search"
+                  value={need}
+                  onChange={(e) => setNeed(e.target.value)}
+                  placeholder={t.heroSearchPlaceholder}
+                />
+                <button type="submit" className="btn btn-primary">
+                  {t.heroSearchBtn}
+                </button>
+              </div>
+            </form>
             <div className="hero-actions">
-              <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                {t.quoteCta}
-              </button>
               <button type="button" className="btn btn-secondary" onClick={() => scrollToId('empresa')}>
                 {t.heroCompany}
               </button>
