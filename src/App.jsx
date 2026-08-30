@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Header from './components/Header'
 import QuoteForm from './components/QuoteForm'
-import { createProcess } from './lib/store'
-import { currentPath, go, parsePath } from './lib/route'
+import { currentPath, parsePath } from './lib/route'
 import { categoryIcons } from './components/Icons'
 import Logo from './components/Logo'
 import { company } from './data/site'
@@ -54,18 +53,10 @@ function scrollToId(id) {
 function PublicSite() {
   const pageRef = useReveal()
   const { t } = useLang()
-  const [need, setNeed] = useState('')
-
-  function startSearch(e) {
-    e.preventDefault()
-    if (!need.trim()) return
-    const process = createProcess(need)
-    go(`/app/pesquisa/${process.id}`)
-  }
 
   return (
     <div ref={pageRef}>
-      <Header onQuote={() => scrollToId('cotacao')} />
+      <Header onQuote={() => scrollToId('contato')} />
 
       <main>
         <section id="inicio" className="hero">
@@ -75,24 +66,91 @@ function PublicSite() {
             <p className="eyebrow hero-eyebrow">{t.heroEyebrow}</p>
             <h1 className="hero-title-wide">{t.heroTitle}</h1>
             <p className="hero-lead">{t.heroLead}</p>
-            <form className="hero-search" onSubmit={startSearch}>
-              <label htmlFor="need-search">{t.heroSearchLabel}</label>
-              <div className="hero-search-row">
-                <input
-                  id="need-search"
-                  value={need}
-                  onChange={(e) => setNeed(e.target.value)}
-                  placeholder={t.heroSearchPlaceholder}
-                />
-                <button type="submit" className="btn btn-primary">
-                  {t.heroSearchBtn}
-                </button>
-              </div>
-            </form>
             <div className="hero-actions">
-              <button type="button" className="btn btn-secondary" onClick={() => scrollToId('empresa')}>
-                {t.heroCompany}
+              <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
+                {t.quoteCta}
               </button>
+              <button type="button" className="btn btn-secondary" onClick={() => scrollToId('como-funciona')}>
+                {t.secondaryCta}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="solucoes" className="section">
+          <div className="container">
+            <div className="section-head reveal">
+              <p className="eyebrow">{t.trustEyebrow}</p>
+              <h2>{t.trustTitle}</h2>
+              <p>{t.trustLead}</p>
+            </div>
+            <div className="grid-2 reasons-grid">
+              {t.reasons.map((item) => (
+                <article key={item.title} className="reason-card reveal">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section maritime">
+          <div className="maritime-bg" aria-hidden="true" />
+          <div className="container maritime-inner reveal">
+            <p className="eyebrow">{t.diffEyebrow}</p>
+            <h2>{t.diffTitle}</h2>
+            <p>{t.diffLead}</p>
+            <div className="maritime-chain" aria-label={t.diffTitle}>
+              {t.chain.flatMap((label, i) =>
+                i === 0
+                  ? [<span key={label}>{label}</span>]
+                  : [
+                      <span key={`${label}-arrow`} aria-hidden="true">
+                        →
+                      </span>,
+                      <span key={label}>{label}</span>,
+                    ],
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section id="como-funciona" className="section">
+          <div className="container">
+            <div className="section-head reveal">
+              <p className="eyebrow">{t.flowEyebrow}</p>
+              <h2>{t.flowTitle}</h2>
+              <p className="lead">{t.flowLead}</p>
+            </div>
+            <ol className="flow-list flow-list-wide reveal">
+              {t.flowSteps.map((step) => (
+                <li key={step.step}>
+                  <span>{step.step}</span>
+                  <div>
+                    <strong>{step.title}</strong>
+                    <p>{step.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="section section-alt">
+          <div className="container">
+            <div className="section-head reveal">
+              <p className="eyebrow">{t.caseEyebrow}</p>
+              <h2>{t.caseTitle}</h2>
+              <p>{t.caseLead}</p>
+            </div>
+            <div className="grid-4">
+              {t.caseItems.map((item) => (
+                <article key={item.title} className="card reveal">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -119,77 +177,37 @@ function PublicSite() {
           </div>
         </section>
 
-        <section id="solucoes" className="section section-alt">
-          <div className="container">
-            <div className="section-head reveal">
-              <p className="eyebrow">{t.whyEyebrow}</p>
-              <h2>{t.whyTitle}</h2>
-              <p>{t.whyLead}</p>
-            </div>
-            <div className="grid-2 reasons-grid">
-              {t.reasons.map((item) => (
-                <article key={item.title} className="reason-card reveal">
-                  <h3>{item.title}</h3>
-                  <p>{item.desc}</p>
-                </article>
-              ))}
-            </div>
+        <section className="section section-alt">
+          <div className="container grid-2">
+            <article className="reason-card reveal">
+              <p className="eyebrow">{t.specificEyebrow}</p>
+              <h2>{t.specificTitle}</h2>
+              <p>{t.specificLead}</p>
+            </article>
+            <article className="reason-card reveal">
+              <h2>{t.unknownTitle}</h2>
+              <p>{t.unknownLead}</p>
+              <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
+                {t.sendNeed}
+              </button>
+            </article>
           </div>
         </section>
 
-        <section id="como-funciona" className="section">
-          <div className="container grid-2 flow-layout">
+        <section id="parceria" className="section">
+          <div className="container grid-2 company-grid">
             <div className="reveal">
-              <p className="eyebrow">{t.flowEyebrow}</p>
-              <h2>{t.flowTitle}</h2>
-              <p className="lead">{t.flowLead}</p>
-              <p className="examples-label">{t.examplesLabel}</p>
-              <ul className="quote-examples">
-                {t.examples.map((line) => (
-                  <li key={line}>{line}</li>
+              <p className="eyebrow">{t.partnerEyebrow}</p>
+              <h2>{t.partnerTitle}</h2>
+              <p className="lead">{t.partnerLead}</p>
+            </div>
+            <aside className="company-aside reveal">
+              <ul>
+                {t.partnerItems.map((item) => (
+                  <li key={item}>{item}</li>
                 ))}
               </ul>
-              <ol className="flow-list">
-                {t.flowSteps.map((step) => (
-                  <li key={step.step}>
-                    <span>{step.step}</span>
-                    <div>
-                      <strong>{step.title}</strong>
-                      <p>{step.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                {t.quoteCta}
-              </button>
-            </div>
-            <div id="cotacao" className="quote-panel reveal">
-              <h3>{t.quoteTitle}</h3>
-              <p>{t.quoteLead}</p>
-              <QuoteForm />
-            </div>
-          </div>
-        </section>
-
-        <section className="section maritime">
-          <div className="maritime-bg" aria-hidden="true" />
-          <div className="container maritime-inner reveal">
-            <p className="eyebrow">{t.maritimeEyebrow}</p>
-            <h2>{t.maritimeTitle}</h2>
-            <p>{t.maritimeLead}</p>
-            <div className="maritime-chain" aria-label={t.maritimeEyebrow}>
-              {t.chain.flatMap((label, i) =>
-                i === 0
-                  ? [<span key={label}>{label}</span>]
-                  : [
-                      <span key={`${label}-arrow`} aria-hidden="true">
-                        →
-                      </span>,
-                      <span key={label}>{label}</span>,
-                    ],
-              )}
-            </div>
+            </aside>
           </div>
         </section>
 
@@ -242,16 +260,13 @@ function PublicSite() {
         <section className="section section-blue cta-band">
           <div className="container cta-band-inner reveal">
             <div>
-              <h2>{t.ctaTitle}</h2>
-              <p>{t.ctaLead}</p>
+              <h2>{t.recurTitle}</h2>
+              <p>{t.recurLead}</p>
             </div>
             <div className="cta-band-actions">
-              <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                {t.quoteCta}
-              </button>
-              <a className="btn btn-secondary" href={`mailto:${company.email}`}>
+              <button type="button" className="btn btn-primary" onClick={() => scrollToId('contato')}>
                 {t.talkTeam}
-              </a>
+              </button>
             </div>
           </div>
         </section>
@@ -289,14 +304,18 @@ function PublicSite() {
                 </div>
               </div>
               <div className="hero-actions">
-                <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                  {t.quoteCta}
-                </button>
                 <a className="btn btn-ghost" href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noreferrer">
                   {t.talkTeam}
                 </a>
               </div>
             </div>
+            <div id="necessidade" className="quote-panel reveal">
+              <h3>{t.quoteTitle}</h3>
+              <p>{t.quoteLead}</p>
+              <QuoteForm />
+            </div>
+          </div>
+          <div className="container contact-map">
             <div className="map-card reveal">
               <iframe
                 title={t.mapTitle}
@@ -336,7 +355,7 @@ function PublicSite() {
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} {company.legalName}. CNPJ {company.cnpj}.</p>
-          {t.footerLegal ? <p>{t.footerLegal}</p> : null}
+          <a href="#/app" className="footer-team">{t.teamArea}</a>
         </div>
       </footer>
     </div>

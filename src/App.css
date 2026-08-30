@@ -194,7 +194,7 @@
 }
 
 .hero h1.hero-title-wide {
-  max-width: 20ch;
+  max-width: 24ch;
 }
 
 .hero-search {
@@ -328,6 +328,11 @@
 .flow-list p {
   margin: 0.25rem 0 0;
   color: var(--muted);
+}
+
+.flow-list-wide {
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem 2rem;
 }
 
 .quote-panel {
@@ -592,6 +597,15 @@
   margin: 0;
 }
 
+.footer-team {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.contact-map {
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 960px) {
   .nav-desktop,
   .header-cta {
@@ -638,6 +652,10 @@
 }
 
 @media (max-width: 680px) {
+  .flow-list-wide {
+    grid-template-columns: 1fr;
+  }
+
   .quote-form .form-grid {
     grid-template-columns: 1fr;
   }
