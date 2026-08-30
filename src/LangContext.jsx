@@ -11,6 +11,10 @@ export function LangProvider({ children }) {
     if (saved === "en" || saved === "pt") setLangState(saved);
   }, []);
 
+  useEffect(() => {
+    document.title = messages[lang].pageTitle;
+  }, [lang]);
+
   const setLang = (next) => {
     setLangState(next);
     window.localStorage.setItem("porto-lang", next);

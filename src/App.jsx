@@ -105,6 +105,12 @@ export default function App() {
               <p className="eyebrow">{t.flowEyebrow}</p>
               <h2>{t.flowTitle}</h2>
               <p className="lead">{t.flowLead}</p>
+              <p className="examples-label">{t.examplesLabel}</p>
+              <ul className="quote-examples">
+                {t.examples.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
               <ol className="flow-list">
                 {t.flowSteps.map((step) => (
                   <li key={step.step}>

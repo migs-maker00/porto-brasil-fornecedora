@@ -1,5 +1,5 @@
 export const company = {
-  name: 'Porto Brasil Fornecedora',
+  name: 'Porto Brasil',
   legalName: 'SS COMÉRCIO E SERVIÇOS EIRELI - EPP',
   tradeNameAlt: 'SS Comércio & Serviços',
   cnpj: '31.009.671/0001-47',
