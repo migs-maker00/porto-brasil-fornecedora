@@ -105,6 +105,28 @@
   gap: 0.6rem;
 }
 
+.lang-switch {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lang-switch button {
+  border: 0;
+  background: var(--white);
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.55rem;
+  cursor: pointer;
+}
+
+.lang-switch button.is-active {
+  background: var(--blue);
+  color: var(--white);
+}
+
 .menu-toggle {
   display: none;
   width: 44px;

@@ -3,7 +3,8 @@ import Header from './components/Header'
 import QuoteForm from './components/QuoteForm'
 import { categoryIcons } from './components/Icons'
 import Logo from './components/Logo'
-import { categories, company, flowSteps, reasons } from './data/site'
+import { company } from './data/site'
+import { useLang } from './LangContext'
 import './App.css'
 
 function useReveal() {
@@ -33,6 +34,7 @@ function scrollToId(id) {
 
 export default function App() {
   const pageRef = useReveal()
+  const { t } = useLang()
 
   return (
     <div ref={pageRef}>
@@ -43,18 +45,15 @@ export default function App() {
           <div className="hero-media" aria-hidden="true" />
           <div className="hero-overlay" aria-hidden="true" />
           <div className="container hero-content">
-            <p className="eyebrow hero-eyebrow">Porto Brasil Fornecedora · São Sebastião</p>
-            <h1>Suprimentos para manter sua operação em movimento.</h1>
-            <p className="hero-lead">
-              Materiais, ferramentas, equipamentos e suprimentos para operações marítimas,
-              industriais e empresariais — com pesquisa, cotação e acompanhamento profissional.
-            </p>
+            <p className="eyebrow hero-eyebrow">{t.heroEyebrow}</p>
+            <h1>{t.heroTitle}</h1>
+            <p className="hero-lead">{t.heroLead}</p>
             <div className="hero-actions">
               <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                Solicitar cotação
+                {t.quoteCta}
               </button>
               <button type="button" className="btn btn-secondary" onClick={() => scrollToId('empresa')}>
-                Conheça a empresa
+                {t.heroCompany}
               </button>
             </div>
           </div>
@@ -63,14 +62,12 @@ export default function App() {
         <section id="materiais" className="section">
           <div className="container">
             <div className="section-head reveal">
-              <p className="eyebrow">O que fornecemos</p>
-              <h2>Amplitude de materiais para a rotina da operação</h2>
-              <p>
-                Não é um catálogo infinito. É um panorama claro das categorias que atendemos no dia a dia.
-              </p>
+              <p className="eyebrow">{t.materialsEyebrow}</p>
+              <h2>{t.materialsTitle}</h2>
+              <p>{t.materialsLead}</p>
             </div>
             <div className="grid-4">
-              {categories.map((item, i) => {
+              {t.categories.map((item, i) => {
                 const Icon = categoryIcons[i]
                 return (
                   <article key={item.title} className="card reveal">
@@ -87,12 +84,12 @@ export default function App() {
         <section id="solucoes" className="section section-alt">
           <div className="container">
             <div className="section-head reveal">
-              <p className="eyebrow">Por que a Porto Brasil</p>
-              <h2>Fornecimento pensado para quem precisa resolver</h2>
-              <p>Benefícios concretos — sem frases genéricas de folder.</p>
+              <p className="eyebrow">{t.whyEyebrow}</p>
+              <h2>{t.whyTitle}</h2>
+              <p>{t.whyLead}</p>
             </div>
             <div className="grid-2 reasons-grid">
-              {reasons.map((item) => (
+              {t.reasons.map((item) => (
                 <article key={item.title} className="reason-card reveal">
                   <h3>{item.title}</h3>
                   <p>{item.desc}</p>
@@ -105,14 +102,11 @@ export default function App() {
         <section id="como-funciona" className="section">
           <div className="container grid-2 flow-layout">
             <div className="reveal">
-              <p className="eyebrow">Cotação</p>
-              <h2>Precisa de um material?</h2>
-              <p className="lead">
-                Você precisa. Nós entendemos a necessidade, pesquisamos, comparamos e cotamos —
-                com clareza para a operação decidir.
-              </p>
+              <p className="eyebrow">{t.flowEyebrow}</p>
+              <h2>{t.flowTitle}</h2>
+              <p className="lead">{t.flowLead}</p>
               <ol className="flow-list">
-                {flowSteps.map((step) => (
+                {t.flowSteps.map((step) => (
                   <li key={step.step}>
                     <span>{step.step}</span>
                     <div>
@@ -123,12 +117,12 @@ export default function App() {
                 ))}
               </ol>
               <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                Solicitar cotação
+                {t.quoteCta}
               </button>
             </div>
             <div id="cotacao" className="quote-panel reveal">
-              <h3>Solicitar cotação</h3>
-              <p>Formulário direto. Sem cadastro. Sem rodeio.</p>
+              <h3>{t.quoteTitle}</h3>
+              <p>{t.quoteLead}</p>
               <QuoteForm />
             </div>
           </div>
@@ -137,20 +131,20 @@ export default function App() {
         <section className="section maritime">
           <div className="maritime-bg" aria-hidden="true" />
           <div className="container maritime-inner reveal">
-            <p className="eyebrow">Operações marítimas e portuárias</p>
-            <h2>Suprimentos para operações que não podem parar.</h2>
-            <p>
-              Necessidade → pesquisa → fornecimento → entrega. Uma linha clara de atendimento para
-              demandas que exigem prazo, especificação correta e resposta organizada.
-            </p>
-            <div className="maritime-chain" aria-label="Fluxo operacional">
-              <span>Necessidade</span>
-              <span aria-hidden="true">→</span>
-              <span>Pesquisa</span>
-              <span aria-hidden="true">→</span>
-              <span>Fornecimento</span>
-              <span aria-hidden="true">→</span>
-              <span>Entrega</span>
+            <p className="eyebrow">{t.maritimeEyebrow}</p>
+            <h2>{t.maritimeTitle}</h2>
+            <p>{t.maritimeLead}</p>
+            <div className="maritime-chain" aria-label={t.maritimeEyebrow}>
+              {t.chain.flatMap((label, i) =>
+                i === 0
+                  ? [<span key={label}>{label}</span>]
+                  : [
+                      <span key={`${label}-arrow`} aria-hidden="true">
+                        →
+                      </span>,
+                      <span key={label}>{label}</span>,
+                    ],
+              )}
             </div>
           </div>
         </section>
@@ -158,53 +152,44 @@ export default function App() {
         <section id="empresa" className="section">
           <div className="container grid-2 company-grid">
             <div className="reveal">
-              <p className="eyebrow">A Empresa</p>
+              <p className="eyebrow">{t.companyEyebrow}</p>
               <h2>{company.name}</h2>
-              <p className="lead">
-                Fornecedora profissional em São Sebastião - SP, próxima de quem precisa de materiais
-                corretos, no prazo e com atendimento direto.
-              </p>
+              <p className="lead">{t.companyLead}</p>
               <dl className="company-facts">
                 <div>
-                  <dt>Nome fantasia</dt>
+                  <dt>{t.factTrade}</dt>
                   <dd>{company.name}</dd>
                 </div>
                 <div>
-                  <dt>Também referida como</dt>
+                  <dt>{t.factAlso}</dt>
                   <dd>{company.tradeNameAlt}</dd>
                 </div>
                 <div>
-                  <dt>Razão social</dt>
+                  <dt>{t.factLegal}</dt>
                   <dd>{company.legalName}</dd>
                 </div>
                 <div>
-                  <dt>CNPJ</dt>
+                  <dt>{t.factCnpj}</dt>
                   <dd>{company.cnpj}</dd>
                 </div>
                 <div>
-                  <dt>Inscrição Estadual</dt>
+                  <dt>{t.factIe}</dt>
                   <dd>{company.ie}</dd>
                 </div>
                 <div>
-                  <dt>Localização</dt>
-                  <dd>São Sebastião - SP</dd>
+                  <dt>{t.factLocation}</dt>
+                  <dd>{t.locationValue}</dd>
                 </div>
               </dl>
-              <p className="muted-note">
-                História institucional detalhada: placeholder para texto oficial da empresa
-                (missão, trajetória e diferenciais confirmados pelo cliente).
-              </p>
+              <p className="muted-note">{t.companyNote}</p>
             </div>
             <aside className="company-aside reveal">
-              <h3>Atendimento próximo</h3>
-              <p>
-                Base local para apoiar empresas e operações da região com pesquisa de materiais,
-                cotação e acompanhamento da solicitação.
-              </p>
+              <h3>{t.asideTitle}</h3>
+              <p>{t.asideLead}</p>
               <ul>
-                <li>Escuta da necessidade antes de cotar</li>
-                <li>Atenção a especificação e unidade</li>
-                <li>Retorno organizado para decisão</li>
+                {t.asideItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
             </aside>
           </div>
@@ -213,15 +198,15 @@ export default function App() {
         <section className="section section-blue cta-band">
           <div className="container cta-band-inner reveal">
             <div>
-              <h2>Precisa de um fornecedor?</h2>
-              <p>Envie a necessidade. Nós pesquisamos, encontramos e cotamos.</p>
+              <h2>{t.ctaTitle}</h2>
+              <p>{t.ctaLead}</p>
             </div>
             <div className="cta-band-actions">
               <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                Solicitar cotação
+                {t.quoteCta}
               </button>
               <a className="btn btn-secondary" href={`mailto:${company.email}`}>
-                Falar com nossa equipe
+                {t.talkTeam}
               </a>
             </div>
           </div>
@@ -230,47 +215,47 @@ export default function App() {
         <section id="contato" className="section section-alt">
           <div className="container grid-2 contact-grid">
             <div className="reveal">
-              <p className="eyebrow">Contato</p>
-              <h2>Fale com a Porto Brasil</h2>
-              <p className="lead">Canais claros para cotação, status e atendimento operacional.</p>
+              <p className="eyebrow">{t.contactEyebrow}</p>
+              <h2>{t.contactTitle}</h2>
+              <p className="lead">{t.contactLead}</p>
               <div className="contact-list">
                 <div>
-                  <strong>Endereço</strong>
+                  <strong>{t.address}</strong>
                   {company.addressLines.map((line) => (
                     <p key={line}>{line}</p>
                   ))}
                   <a className="text-link" href={company.mapsUrl} target="_blank" rel="noreferrer">
-                    Ver no mapa
+                    {t.seeMap}
                   </a>
                 </div>
                 <div>
-                  <strong>Telefone</strong>
+                  <strong>{t.phone}</strong>
                   {company.phones.map((p) => (
                     <p key={p.href}><a href={p.href}>{p.label}</a></p>
                   ))}
                 </div>
                 <div>
-                  <strong>E-mail</strong>
+                  <strong>{t.email}</strong>
                   <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
                 </div>
                 <div>
-                  <strong>Horário</strong>
-                  <p>{company.hours}</p>
-                  <p className="field-hint">Confirmar horário oficial com a equipe se houver variação.</p>
+                  <strong>{t.hoursLabel}</strong>
+                  <p>{t.hours}</p>
+                  <p className="field-hint">{t.hoursHint}</p>
                 </div>
               </div>
               <div className="hero-actions">
                 <button type="button" className="btn btn-primary" onClick={() => scrollToId('cotacao')}>
-                  Solicitar cotação
+                  {t.quoteCta}
                 </button>
                 <a className="btn btn-ghost" href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noreferrer">
-                  Falar com nossa equipe
+                  {t.talkTeam}
                 </a>
               </div>
             </div>
             <div className="map-card reveal">
               <iframe
-                title="Mapa — Porto Brasil Fornecedora"
+                title={t.mapTitle}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 src="https://www.google.com/maps?q=Rua%20Nossa%20Senhora%20da%20Paz%2082%20Vila%20Amelia%20Sao%20Sebastiao%20SP&output=embed"
@@ -284,21 +269,18 @@ export default function App() {
         <div className="container footer-grid">
           <div>
             <Logo />
-            <p>
-              Fornecimento B2B de materiais e suprimentos em São Sebastião - SP, com foco em
-              clareza, prazo e especificação correta.
-            </p>
+            <p>{t.footerAbout}</p>
           </div>
           <div>
-            <h4>Links</h4>
-            <button type="button" onClick={() => scrollToId('empresa')}>Empresa</button>
-            <button type="button" onClick={() => scrollToId('solucoes')}>Soluções</button>
-            <button type="button" onClick={() => scrollToId('materiais')}>Materiais</button>
-            <button type="button" onClick={() => scrollToId('cotacao')}>Cotação</button>
-            <button type="button" onClick={() => scrollToId('contato')}>Contato</button>
+            <h4>{t.footerLinks}</h4>
+            {t.nav.map((link) => (
+              <button key={link.id} type="button" onClick={() => scrollToId(link.id)}>
+                {link.label}
+              </button>
+            ))}
           </div>
           <div>
-            <h4>Contato</h4>
+            <h4>{t.contactEyebrow}</h4>
             {company.addressLines.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -310,7 +292,7 @@ export default function App() {
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} {company.legalName}. CNPJ {company.cnpj}.</p>
-          <p>Informações legais adicionais: a confirmar com a empresa.</p>
+          <p>{t.footerLegal}</p>
         </div>
       </footer>
     </div>
